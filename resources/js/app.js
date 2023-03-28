@@ -1,9 +1,12 @@
 require("./bootstrap");
 
-window.Vue = require("vue").default;
+import Vue from "vue";
+import store from "./store";
+import vuetify from "../plugins/vuetify";
 
 Vue.component("main-page", require("./pages/MainPage.vue").default);
 
 new Vue({
-    el: "#app",
-});
+    store,
+    vuetify,
+}).$mount("#app");
