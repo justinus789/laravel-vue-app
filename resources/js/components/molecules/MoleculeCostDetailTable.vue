@@ -47,8 +47,8 @@
                                 hide-details
                                 placeholder="Select an option"
                                 :items="uomOption"
-                                item-text="value"
-                                item-value="value"
+                                item-text="name"
+                                item-value="name"
                                 v-model="item.uom"
                             />
                         </td>
@@ -105,8 +105,8 @@
                                 hide-details
                                 placeholder="Select an option"
                                 :items="currencyOption"
-                                item-text="value"
-                                item-value="value"
+                                item-text="name"
+                                item-value="name"
                                 v-model="item.currency"
                             />
                         </td>
@@ -116,7 +116,9 @@
                         <td>
                             <AtomTextBody :text="item.sub_total.toFixed(2)" />
                         </td>
-                        <td><AtomTextBody :text="item.total.toFixed(2)" /></td>
+                        <td>
+                            <AtomTextBody :text="item.total.toFixed(2)" />
+                        </td>
                         <td>
                             <v-select
                                 class="my-4"
@@ -127,8 +129,8 @@
                                 hide-details
                                 placeholder="Select an option"
                                 :items="chargeToOption"
-                                item-text="value"
-                                item-value="value"
+                                item-text="name"
+                                item-value="name"
                                 v-model="item.charge_to"
                             />
                         </td>
@@ -152,12 +154,12 @@
                     <v-col cols="6">
                         <div class="d-flex mt-6">
                             <div>
-                                <p>Exchange rate 1 USD =</p>
+                                <AtomTextBody text="Exchange rate 1 USD =" />
                             </div>
                             <div class="w-25">
                                 <v-text-field
                                     dense
-                                    class="mx-2 mt-n2"
+                                    class="mx-2 mt-n1"
                                     background-color="#F4F4F4"
                                     flat
                                     solo
@@ -166,29 +168,45 @@
                                     reverse
                                 />
                             </div>
-                            <div>AED</div>
+                            <div><AtomTextBody text="AED" /></div>
                         </div>
                     </v-col>
 
                     <v-col cols="4" offset="1">
                         <v-row no-gutters class="table-card">
-                            <v-col cols="3">AED in Total </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="AED in Total" />
+                            </v-col>
 
-                            <v-col cols="3"> 0.00 </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="0.00" />
+                            </v-col>
 
-                            <v-col cols="3"> 0.00 </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="0.00" />
+                            </v-col>
 
-                            <v-col cols="3"> 0.00 </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="0.00" />
+                            </v-col>
                         </v-row>
 
                         <v-row no-gutters class="table-card mt-1">
-                            <v-col cols="3">USD in Total </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="USD in Total" />
+                            </v-col>
 
-                            <v-col cols="3"> 0.00 </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="0.00" />
+                            </v-col>
 
-                            <v-col cols="3"> 0.00 </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="0.00" />
+                            </v-col>
 
-                            <v-col cols="3"> 0.00 </v-col>
+                            <v-col cols="3">
+                                <AtomTextBody text="0.00" />
+                            </v-col>
                         </v-row>
                     </v-col>
 
@@ -212,13 +230,28 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import AtomTextBody from "../atoms/AtomTextBody.vue";
+
 export default {
     name: "MoleculeCostDetail",
     components: {
         AtomTextBody,
     },
-    props: ["showDataTable"],
+    props: {
+        showDataTable: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    computed: {
+        ...mapState("costDetail", {
+            uomOption: (state) => state.uom,
+            currencyOption: (state) => state.currency,
+            chargeToOption: (state) => state.chargeTo,
+        }),
+    },
+
     data() {
         return {
             headers: [
@@ -272,27 +305,13 @@ export default {
                 { text: "", sortable: false, value: "action" },
             ],
             exchRateToAED: "3.6725",
-            uomOption: [
-                { id: 1, value: "SHP" },
-                { id: 2, value: "CRD" },
-                { id: 3, value: "CM" },
-            ],
-            currencyOption: [
-                { id: 1, value: "USD" },
-                { id: 2, value: "AED" },
-            ],
-            chargeToOption: [
-                { id: 1, value: "A" },
-                { id: 2, value: "B" },
-                { id: 3, value: "C" },
-            ],
             form: {
                 description: "",
                 qty: "",
-                uom: "",
+                uom: "SHP",
                 unit_price: "",
-                discount: "",
-                vat: "",
+                discount: 0,
+                vat: 0,
                 currency: "USD",
                 vat_amount: 0,
                 sub_total: 0,
@@ -303,10 +322,10 @@ export default {
                 {
                     description: "",
                     qty: "",
-                    uom: "",
+                    uom: "SHP",
                     unit_price: "",
-                    discount: "",
-                    vat: "",
+                    discount: 0,
+                    vat: 0,
                     currency: "USD",
                     vat_amount: 0,
                     sub_total: 0,
@@ -316,10 +335,10 @@ export default {
                 {
                     description: "",
                     qty: "",
-                    uom: "",
+                    uom: "SHP",
                     unit_price: "",
-                    discount: "",
-                    vat: "",
+                    discount: 0,
+                    vat: 0,
                     currency: "AED",
                     vat_amount: 0,
                     sub_total: 0,
@@ -328,6 +347,13 @@ export default {
                 },
             ],
         };
+    },
+
+    mounted() {
+        this.fetchAllDropdownData();
+    },
+    methods: {
+        ...mapActions("costDetail", ["fetchAllDropdownData"]),
     },
 };
 </script>
@@ -343,7 +369,6 @@ export default {
 table th {
     background-color: #f4f4f4;
 }
-
 tbody {
     tr:hover {
         background-color: transparent !important;

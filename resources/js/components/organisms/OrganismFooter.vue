@@ -3,7 +3,6 @@
         <v-btn large class="text-none mx-2" color="#F4F4F4" depressed>
             Cancel
         </v-btn>
-
         <v-btn
             large
             class="text-none mx-2 white--text"
@@ -12,7 +11,6 @@
         >
             Save as Draft
         </v-btn>
-
         <v-btn
             large
             width="200"

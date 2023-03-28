@@ -11,7 +11,6 @@
                 mdi-arrow-down-drop-circle
             </v-icon>
         </v-btn>
-
         <MoleculeCostDetailTable :show-data-table="showDataTable" />
     </section>
 </template>
