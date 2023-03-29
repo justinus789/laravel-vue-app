@@ -5,14 +5,13 @@
             disable-pagination
             :mobile-breakpoint="0"
             :headers="headers"
-            :items="data"
             :hide-default-footer="true"
             class="elevation-1 mb-10"
         >
             <template v-slot:no-data> No Cost Detail data </template>
-            <template v-slot:body="{ items }">
+            <template v-slot:body>
                 <tbody>
-                    <tr v-for="(item, index) in items" :key="index">
+                    <tr v-for="(item, index) in formData" :key="index">
                         <td>
                             <v-text-field
                                 class="my-4"
@@ -22,7 +21,10 @@
                                 solo
                                 hide-details
                                 placeholder="description"
-                                v-model="item.description"
+                                :value="item.description"
+                                @input="
+                                    updateFormData(index, 'description', $event)
+                                "
                             />
                         </td>
                         <td>
@@ -34,7 +36,8 @@
                                 solo
                                 hide-details
                                 placeholder="Qty"
-                                v-model="item.qty"
+                                :value="item.qty"
+                                @input="updateFormData(index, 'qty', $event)"
                             />
                         </td>
                         <td>
@@ -49,7 +52,8 @@
                                 :items="uomOption"
                                 item-text="name"
                                 item-value="name"
-                                v-model="item.uom"
+                                :value="item.uom"
+                                @input="updateFormData(index, 'uom', $event)"
                             />
                         </td>
                         <td>
@@ -61,7 +65,10 @@
                                 solo
                                 hide-details
                                 placeholder="Unit Price"
-                                v-model="item.unit_price"
+                                :value="item.unitPrice"
+                                @input="
+                                    updateFormData(index, 'unitPrice', $event)
+                                "
                             />
                         </td>
                         <td>
@@ -73,7 +80,10 @@
                                 solo
                                 hide-details
                                 placeholder="Discount"
-                                v-model="item.discount"
+                                :value="item.discount"
+                                @input="
+                                    updateFormData(index, 'discount', $event)
+                                "
                                 maxlength="3"
                             />
                         </td>
@@ -86,7 +96,8 @@
                                 solo
                                 hide-details
                                 placeholder="VAT"
-                                v-model="item.vat"
+                                :value="item.vat"
+                                @input="updateFormData(index, 'vat', $event)"
                                 maxlength="3"
                             />
                         </td>
@@ -107,14 +118,17 @@
                                 :items="currencyOption"
                                 item-text="name"
                                 item-value="name"
-                                v-model="item.currency"
+                                :value="item.currency"
+                                @input="
+                                    updateFormData(index, 'currency', $event)
+                                "
                             />
                         </td>
                         <td>
-                            <AtomTextBody :text="item.vat_amount.toFixed(2)" />
+                            <AtomTextBody :text="item.vatAmount.toFixed(2)" />
                         </td>
                         <td>
-                            <AtomTextBody :text="item.sub_total.toFixed(2)" />
+                            <AtomTextBody :text="item.subTotal.toFixed(2)" />
                         </td>
                         <td>
                             <AtomTextBody :text="item.total.toFixed(2)" />
@@ -131,7 +145,10 @@
                                 :items="chargeToOption"
                                 item-text="name"
                                 item-value="name"
-                                v-model="item.charge_to"
+                                :value="item.chargeTo"
+                                @input="
+                                    updateFormData(index, 'chargeTo', $event)
+                                "
                             />
                         </td>
                         <td>
@@ -139,7 +156,7 @@
                                 class="my-4"
                                 color="#F4F4F4"
                                 depressed
-                                @click="data.splice(index, 1)"
+                                @click="removeFormData(index)"
                             >
                                 <v-icon small> mdi-minus </v-icon>
                             </v-btn>
@@ -217,7 +234,7 @@
                                 height="40"
                                 color="cyan"
                                 depressed
-                                @click="data.push(form)"
+                                @click="pushFormData()"
                             >
                                 <v-icon small> mdi-plus </v-icon>
                             </v-btn>
@@ -249,103 +266,29 @@ export default {
             uomOption: (state) => state.uom,
             currencyOption: (state) => state.currency,
             chargeToOption: (state) => state.chargeTo,
+
+            formData: (state) => state.formData,
         }),
     },
 
     data() {
         return {
             headers: [
-                {
-                    text: "Description",
-                    sortable: false,
-                    value: "description",
-                    width: "12%",
-                },
-                { text: "Qty", sortable: false, value: "qty", width: "8%" },
-                { text: "UOM", sortable: false, value: "uom", width: "10%" },
-                {
-                    text: "Unit Price",
-                    sortable: false,
-                    value: "unit_price",
-                    width: "8%",
-                },
-                {
-                    text: "Discount (%)",
-                    sortable: false,
-                    value: "discount",
-                    width: "8%",
-                },
-                { text: "VAT (%)", sortable: false, value: "vat", width: "8%" },
-                { text: "", sortable: false, value: "icon", width: "4%" },
-                {
-                    text: "Currency",
-                    sortable: false,
-                    value: "currency",
-                    width: "10%",
-                },
-                {
-                    text: "VAT Amount",
-                    sortable: false,
-                    value: "vat_amount",
-                    width: "5%",
-                },
-                {
-                    text: "Sub Total",
-                    sortable: false,
-                    value: "sub_total",
-                    width: "5%",
-                },
+                { text: "Description", sortable: false, width: "12%" },
+                { text: "Qty", sortable: false, width: "8%" },
+                { text: "UOM", sortable: false, width: "10%" },
+                { text: "Unit Price", sortable: false, width: "8%" },
+                { text: "Discount (%)", sortable: false, width: "8%" },
+                { text: "VAT (%)", sortable: false, width: "8%" },
+                { text: "", sortable: false, width: "4%" },
+                { text: "Currency", sortable: false, width: "10%" },
+                { text: "VAT Amount", sortable: false, width: "5%" },
+                { text: "Sub Total", sortable: false, width: "5%" },
                 { text: "Total", sortable: false, value: "total", width: "5%" },
-                {
-                    text: "Charge To",
-                    sortable: false,
-                    value: "charge_to",
-                    width: "15%",
-                },
+                { text: "Charge To", sortable: false, width: "15%" },
                 { text: "", sortable: false, value: "action" },
             ],
             exchRateToAED: "3.6725",
-            form: {
-                description: "",
-                qty: "",
-                uom: "SHP",
-                unit_price: "",
-                discount: 0,
-                vat: 0,
-                currency: "USD",
-                vat_amount: 0,
-                sub_total: 0,
-                total: 0,
-                charge_to: "",
-            },
-            data: [
-                {
-                    description: "",
-                    qty: "",
-                    uom: "SHP",
-                    unit_price: "",
-                    discount: 0,
-                    vat: 0,
-                    currency: "USD",
-                    vat_amount: 0,
-                    sub_total: 0,
-                    total: 0,
-                    charge_to: "",
-                },
-                {
-                    description: "",
-                    qty: "",
-                    uom: "SHP",
-                    unit_price: "",
-                    discount: 0,
-                    vat: 0,
-                    currency: "AED",
-                    vat_amount: 0,
-                    sub_total: 0,
-                    total: 0,
-                    charge_to: "",
-                },
-            ],
         };
     },
 
@@ -354,6 +297,34 @@ export default {
     },
     methods: {
         ...mapActions("costDetail", ["fetchAllDropdownData"]),
+
+        updateFormData(index, field, value) {
+            this.$store.commit("costDetail/updateFormData", {
+                index,
+                field,
+                value,
+            });
+        },
+
+        pushFormData() {
+            this.$store.commit("costDetail/pushFormData", {
+                description: "",
+                qty: "",
+                uom: "SHP",
+                unitPrice: "",
+                discount: 0,
+                vat: 0,
+                currency: "USD",
+                vatAmount: 0,
+                subTotal: 0,
+                total: 0,
+                chargeTo: "",
+            });
+        },
+
+        removeFormData(index) {
+            this.$store.commit("costDetail/removeFormData", { index });
+        },
     },
 };
 </script>

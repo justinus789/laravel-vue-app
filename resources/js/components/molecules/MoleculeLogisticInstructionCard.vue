@@ -30,7 +30,8 @@
                                 :items="vendorOption"
                                 item-text="name"
                                 item-value="name"
-                                v-model="form.vendor"
+                                :value="form.vendor"
+                                @input="updateForm('vendor', $event)"
                             />
                         </v-col>
                         <v-col class="px-3" cols="3">
@@ -43,7 +44,8 @@
                                 solo
                                 hide-details
                                 placeholder="Attention Of"
-                                v-model="form.attentionOf"
+                                :value="form.attentionOf"
+                                @input="updateForm('attentionOf', $event)"
                             />
                         </v-col>
                         <v-col class="px-3" cols="3">
@@ -56,7 +58,8 @@
                                 solo
                                 hide-details
                                 placeholder="Quotation No."
-                                v-model="form.quotationNo"
+                                :value="form.quotationNo"
+                                @input="updateForm('quotationNo', $event)"
                             />
                         </v-col>
                         <v-col class="px-3" cols="3">
@@ -72,7 +75,8 @@
                                 :items="invoiceToOption"
                                 item-text="name"
                                 item-value="name"
-                                v-model="form.invoiceTo"
+                                :value="form.invoiceTo"
+                                @input="updateForm('invoiceTo', $event)"
                             />
                         </v-col>
 
@@ -86,7 +90,8 @@
                                 solo
                                 hide-details
                                 placeholder="Vendor Address"
-                                v-model="form.vendorAddress"
+                                :value="form.vendorAddress"
+                                @input="updateForm('vendorAddress', $event)"
                             />
                         </v-col>
                     </v-row>
@@ -104,7 +109,8 @@
                         :items="customerContractOption"
                         item-text="name"
                         item-value="name"
-                        v-model="form.customerContract"
+                        :value="form.customerContract"
+                        @input="updateForm('customerContract', $event)"
                     />
 
                     <AtomTextBody2 class="mt-4" text="Customer PO No." />
@@ -119,7 +125,8 @@
                         :items="customerPoNoOption"
                         item-text="name"
                         item-value="name"
-                        v-model="form.customerPoNo"
+                        :value="form.customerPoNo"
+                        @input="updateForm('customerPoNo', $event)"
                     />
                 </v-col>
             </v-row>
@@ -129,24 +136,20 @@
 
 <script>
 import AtomTextBody2 from "../atoms/AtomTextBody2.vue";
+import { mapState } from "vuex";
 
 export default {
     name: "MoleculeLogisticInstructionCard",
     components: {
         AtomTextBody2,
     },
+    computed: {
+        ...mapState("logisticInstruction", {
+            form: (state) => state.form,
+        }),
+    },
     data() {
         return {
-            form: {
-                vendor: "Amarit & Associates Logistics Co Ltd",
-                invoiceTo: "MITO",
-                attentionOf: "John Smith",
-                quotationNo: "ABC-123-01",
-                vendorAddress:
-                    "Marubeni-Itochu Tublars Asia Pte Ltd (2 Shenton Way SGX Centre 1, #07-01 (S) (068804))",
-                customerContract: "ADNOC-ONSHORE",
-                customerPoNo: "A123XXHTA0192",
-            },
             vendorOption: [
                 { id: 1, name: "Amarit & Associates Logistics Co Ltd" },
             ],
@@ -154,6 +157,14 @@ export default {
             customerContractOption: [{ id: 1, name: "ADNOC-ONSHORE" }],
             customerPoNoOption: [{ id: 1, name: "A123XXHTA0192" }],
         };
+    },
+    methods: {
+        updateForm(field, value) {
+            this.$store.commit("logisticInstruction/updateForm", {
+                field,
+                value,
+            });
+        },
     },
 };
 </script>

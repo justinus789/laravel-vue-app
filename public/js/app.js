@@ -5607,6 +5607,23 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5630,6 +5647,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     chargeToOption: function chargeToOption(state) {
       return state.chargeTo;
+    },
+    formData: function formData(state) {
+      return state.formData;
     }
   })),
   data: function data() {
@@ -5637,52 +5657,42 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       headers: [{
         text: "Description",
         sortable: false,
-        value: "description",
         width: "12%"
       }, {
         text: "Qty",
         sortable: false,
-        value: "qty",
         width: "8%"
       }, {
         text: "UOM",
         sortable: false,
-        value: "uom",
         width: "10%"
       }, {
         text: "Unit Price",
         sortable: false,
-        value: "unit_price",
         width: "8%"
       }, {
         text: "Discount (%)",
         sortable: false,
-        value: "discount",
         width: "8%"
       }, {
         text: "VAT (%)",
         sortable: false,
-        value: "vat",
         width: "8%"
       }, {
         text: "",
         sortable: false,
-        value: "icon",
         width: "4%"
       }, {
         text: "Currency",
         sortable: false,
-        value: "currency",
         width: "10%"
       }, {
         text: "VAT Amount",
         sortable: false,
-        value: "vat_amount",
         width: "5%"
       }, {
         text: "Sub Total",
         sortable: false,
-        value: "sub_total",
         width: "5%"
       }, {
         text: "Total",
@@ -5692,58 +5702,47 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }, {
         text: "Charge To",
         sortable: false,
-        value: "charge_to",
         width: "15%"
       }, {
         text: "",
         sortable: false,
         value: "action"
       }],
-      exchRateToAED: "3.6725",
-      form: {
-        description: "",
-        qty: "",
-        uom: "SHP",
-        unit_price: "",
-        discount: 0,
-        vat: 0,
-        currency: "USD",
-        vat_amount: 0,
-        sub_total: 0,
-        total: 0,
-        charge_to: ""
-      },
-      data: [{
-        description: "",
-        qty: "",
-        uom: "SHP",
-        unit_price: "",
-        discount: 0,
-        vat: 0,
-        currency: "USD",
-        vat_amount: 0,
-        sub_total: 0,
-        total: 0,
-        charge_to: ""
-      }, {
-        description: "",
-        qty: "",
-        uom: "SHP",
-        unit_price: "",
-        discount: 0,
-        vat: 0,
-        currency: "AED",
-        vat_amount: 0,
-        sub_total: 0,
-        total: 0,
-        charge_to: ""
-      }]
+      exchRateToAED: "3.6725"
     };
   },
   mounted: function mounted() {
     this.fetchAllDropdownData();
   },
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("costDetail", ["fetchAllDropdownData"]))
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("costDetail", ["fetchAllDropdownData"])), {}, {
+    updateFormData: function updateFormData(index, field, value) {
+      this.$store.commit("costDetail/updateFormData", {
+        index: index,
+        field: field,
+        value: value
+      });
+    },
+    pushFormData: function pushFormData() {
+      this.$store.commit("costDetail/pushFormData", {
+        description: "",
+        qty: "",
+        uom: "SHP",
+        unitPrice: "",
+        discount: 0,
+        vat: 0,
+        currency: "USD",
+        vatAmount: 0,
+        subTotal: 0,
+        total: 0,
+        chargeTo: ""
+      });
+    },
+    removeFormData: function removeFormData(index) {
+      this.$store.commit("costDetail/removeFormData", {
+        index: index
+      });
+    }
+  })
 });
 
 /***/ }),
@@ -5760,6 +5759,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _atoms_AtomTextBody2_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../atoms/AtomTextBody2.vue */ "./resources/js/components/atoms/AtomTextBody2.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 //
 //
 //
@@ -5889,6 +5895,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5896,17 +5910,13 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     AtomTextBody2: _atoms_AtomTextBody2_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)("logisticInstruction", {
+    form: function form(state) {
+      return state.form;
+    }
+  })),
   data: function data() {
     return {
-      form: {
-        vendor: "Amarit & Associates Logistics Co Ltd",
-        invoiceTo: "MITO",
-        attentionOf: "John Smith",
-        quotationNo: "ABC-123-01",
-        vendorAddress: "Marubeni-Itochu Tublars Asia Pte Ltd (2 Shenton Way SGX Centre 1, #07-01 (S) (068804))",
-        customerContract: "ADNOC-ONSHORE",
-        customerPoNo: "A123XXHTA0192"
-      },
       vendorOption: [{
         id: 1,
         name: "Amarit & Associates Logistics Co Ltd"
@@ -5924,6 +5934,14 @@ __webpack_require__.r(__webpack_exports__);
         name: "A123XXHTA0192"
       }]
     };
+  },
+  methods: {
+    updateForm: function updateForm(field, value) {
+      this.$store.commit("logisticInstruction/updateForm", {
+        field: field,
+        value: value
+      });
+    }
   }
 });
 
@@ -6035,6 +6053,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6061,8 +6096,84 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "OrganismFooter"
+  name: "OrganismFooter",
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    logisticInstruction: function logisticInstruction(state) {
+      return state.logisticInstruction.form;
+    },
+    costDetail: function costDetail(state) {
+      return state.costDetail.formData;
+    }
+  })),
+  data: function data() {
+    return {
+      snackbar: false,
+      snakbarText: "",
+      snackbarColor: ""
+    };
+  },
+  methods: {
+    validateForm: function validateForm() {
+      var _this$logisticInstruc = this.logisticInstruction,
+        vendor = _this$logisticInstruc.vendor,
+        invoiceTo = _this$logisticInstruc.invoiceTo,
+        attentionOf = _this$logisticInstruc.attentionOf,
+        quotationNo = _this$logisticInstruc.quotationNo,
+        vendorAddress = _this$logisticInstruc.vendorAddress,
+        customerContract = _this$logisticInstruc.customerContract,
+        customerPoNo = _this$logisticInstruc.customerPoNo;
+      if (!vendor || !invoiceTo || !attentionOf || !quotationNo || !vendorAddress || !customerContract || !customerPoNo) {
+        this.snackbar = true;
+        this.snackbarColor = "red";
+        this.snakbarText = "All Logistic Instruction fields is required";
+      } else {
+        var isValid = true;
+        for (var i = 0; i < this.costDetail.length; i++) {
+          var _this$costDetail$i = this.costDetail[i],
+            description = _this$costDetail$i.description,
+            qty = _this$costDetail$i.qty,
+            uom = _this$costDetail$i.uom,
+            unitPrice = _this$costDetail$i.unitPrice,
+            discount = _this$costDetail$i.discount,
+            vat = _this$costDetail$i.vat,
+            currency = _this$costDetail$i.currency,
+            chargeTo = _this$costDetail$i.chargeTo;
+          if (!description || !qty || !uom || !unitPrice || discount === "" || vat === "" || !currency || !chargeTo) {
+            isValid = false;
+            this.snackbar = true;
+            this.snackbarColor = "red";
+            this.snakbarText = "All Cost Detail fields is required";
+            break;
+          } else if (isNaN(qty) || isNaN(unitPrice) || isNaN(discount) || isNaN(vat)) {
+            isValid = false;
+            this.snackbar = true;
+            this.snackbarColor = "red";
+            this.snakbarText = "Qty, UOM, Unit Price, Discount and VAT must be a number values";
+            break;
+          } else if (Number(qty) <= 0 || Number(unitPrice) <= 0) {
+            isValid = false;
+            this.snackbar = true;
+            this.snackbarColor = "red";
+            this.snakbarText = "Qty and UOM can not be 0 or negative values";
+            break;
+          } else if (Number(discount) < 0 || Number(discount) > 100 || Number(vat) < 0 || Number(vat) > 100) {
+            isValid = false;
+            this.snackbar = true;
+            this.snackbarColor = "red";
+            this.snakbarText = "Discount and VAT must have values in the range of 0 to 100";
+            break;
+          }
+          if (isValid) {
+            this.snackbar = true;
+            this.snackbarColor = "green";
+            this.snakbarText = "Submitted !";
+          }
+        }
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -6186,16 +6297,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_CostDetail__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/CostDetail */ "./resources/js/store/modules/CostDetail.js");
+/* harmony import */ var _modules_LogisticInstruction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/LogisticInstruction */ "./resources/js/store/modules/LogisticInstruction.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
+
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_3__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_3__["default"].Store({
   modules: {
-    costDetail: _modules_CostDetail__WEBPACK_IMPORTED_MODULE_0__["default"]
+    costDetail: _modules_CostDetail__WEBPACK_IMPORTED_MODULE_0__["default"],
+    logisticInstruction: _modules_LogisticInstruction__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   strict: true
 }));
@@ -6224,7 +6338,32 @@ var state = function state() {
   return {
     uom: [],
     currency: [],
-    chargeTo: []
+    chargeTo: [],
+    formData: [{
+      description: "",
+      qty: "",
+      uom: "SHP",
+      unitPrice: "",
+      discount: 0,
+      vat: 0,
+      currency: "USD",
+      vatAmount: 0,
+      subTotal: 0,
+      total: 0,
+      chargeTo: ""
+    }, {
+      description: "",
+      qty: "",
+      uom: "SHP",
+      unitPrice: "",
+      discount: 0,
+      vat: 0,
+      currency: "AED",
+      vatAmount: 0,
+      subTotal: 0,
+      total: 0,
+      chargeTo: ""
+    }]
   };
 };
 var mutations = {
@@ -6232,6 +6371,15 @@ var mutations = {
     state.uom = payload.uom;
     state.currency = payload.currency;
     state.chargeTo = payload.charge_to;
+  },
+  updateFormData: function updateFormData(state, payload) {
+    state.formData[payload.index][payload.field] = payload.value;
+  },
+  pushFormData: function pushFormData(state, payload) {
+    state.formData.push(payload);
+  },
+  removeFormData: function removeFormData(state, payload) {
+    state.formData.splice(payload.index, 1);
   }
 };
 var actions = {
@@ -6268,6 +6416,43 @@ var actions = {
   state: state,
   mutations: mutations,
   actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/LogisticInstruction.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/store/modules/LogisticInstruction.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var state = function state() {
+  return {
+    form: {
+      vendor: "Amarit & Associates Logistics Co Ltd",
+      invoiceTo: "MITO",
+      attentionOf: "John Smith",
+      quotationNo: "ABC-123-01",
+      vendorAddress: "Marubeni-Itochu Tublars Asia Pte Ltd (2 Shenton Way SGX Centre 1, #07-01 (S) (068804))",
+      customerContract: "ADNOC-ONSHORE",
+      customerPoNo: "A123XXHTA0192"
+    }
+  };
+};
+var mutations = {
+  updateForm: function updateForm(state, payload) {
+    state.form[payload.field] = payload.value;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations
 });
 
 /***/ }),
@@ -30365,7 +30550,6 @@ var render = function () {
           "disable-pagination": "",
           "mobile-breakpoint": 0,
           headers: _vm.headers,
-          items: _vm.data,
           "hide-default-footer": true,
         },
         scopedSlots: _vm._u([
@@ -30378,12 +30562,11 @@ var render = function () {
           },
           {
             key: "body",
-            fn: function (ref) {
-              var items = ref.items
+            fn: function () {
               return [
                 _c(
                   "tbody",
-                  _vm._l(items, function (item, index) {
+                  _vm._l(_vm.formData, function (item, index) {
                     return _c("tr", { key: index }, [
                       _c(
                         "td",
@@ -30397,13 +30580,16 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "description",
-                            },
-                            model: {
                               value: item.description,
-                              callback: function ($$v) {
-                                _vm.$set(item, "description", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(
+                                  index,
+                                  "description",
+                                  $event
+                                )
                               },
-                              expression: "item.description",
                             },
                           }),
                         ],
@@ -30422,13 +30608,12 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "Qty",
-                            },
-                            model: {
                               value: item.qty,
-                              callback: function ($$v) {
-                                _vm.$set(item, "qty", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(index, "qty", $event)
                               },
-                              expression: "item.qty",
                             },
                           }),
                         ],
@@ -30450,13 +30635,12 @@ var render = function () {
                               items: _vm.uomOption,
                               "item-text": "name",
                               "item-value": "name",
-                            },
-                            model: {
                               value: item.uom,
-                              callback: function ($$v) {
-                                _vm.$set(item, "uom", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(index, "uom", $event)
                               },
-                              expression: "item.uom",
                             },
                           }),
                         ],
@@ -30475,13 +30659,16 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "Unit Price",
+                              value: item.unitPrice,
                             },
-                            model: {
-                              value: item.unit_price,
-                              callback: function ($$v) {
-                                _vm.$set(item, "unit_price", $$v)
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(
+                                  index,
+                                  "unitPrice",
+                                  $event
+                                )
                               },
-                              expression: "item.unit_price",
                             },
                           }),
                         ],
@@ -30500,14 +30687,17 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "Discount",
+                              value: item.discount,
                               maxlength: "3",
                             },
-                            model: {
-                              value: item.discount,
-                              callback: function ($$v) {
-                                _vm.$set(item, "discount", $$v)
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(
+                                  index,
+                                  "discount",
+                                  $event
+                                )
                               },
-                              expression: "item.discount",
                             },
                           }),
                         ],
@@ -30526,14 +30716,13 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "VAT",
+                              value: item.vat,
                               maxlength: "3",
                             },
-                            model: {
-                              value: item.vat,
-                              callback: function ($$v) {
-                                _vm.$set(item, "vat", $$v)
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(index, "vat", $event)
                               },
-                              expression: "item.vat",
                             },
                           }),
                         ],
@@ -30571,13 +30760,16 @@ var render = function () {
                               items: _vm.currencyOption,
                               "item-text": "name",
                               "item-value": "name",
-                            },
-                            model: {
                               value: item.currency,
-                              callback: function ($$v) {
-                                _vm.$set(item, "currency", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(
+                                  index,
+                                  "currency",
+                                  $event
+                                )
                               },
-                              expression: "item.currency",
                             },
                           }),
                         ],
@@ -30588,7 +30780,7 @@ var render = function () {
                         "td",
                         [
                           _c("AtomTextBody", {
-                            attrs: { text: item.vat_amount.toFixed(2) },
+                            attrs: { text: item.vatAmount.toFixed(2) },
                           }),
                         ],
                         1
@@ -30598,7 +30790,7 @@ var render = function () {
                         "td",
                         [
                           _c("AtomTextBody", {
-                            attrs: { text: item.sub_total.toFixed(2) },
+                            attrs: { text: item.subTotal.toFixed(2) },
                           }),
                         ],
                         1
@@ -30629,13 +30821,16 @@ var render = function () {
                               items: _vm.chargeToOption,
                               "item-text": "name",
                               "item-value": "name",
+                              value: item.chargeTo,
                             },
-                            model: {
-                              value: item.charge_to,
-                              callback: function ($$v) {
-                                _vm.$set(item, "charge_to", $$v)
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateFormData(
+                                  index,
+                                  "chargeTo",
+                                  $event
+                                )
                               },
-                              expression: "item.charge_to",
                             },
                           }),
                         ],
@@ -30652,7 +30847,7 @@ var render = function () {
                               attrs: { color: "#F4F4F4", depressed: "" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.data.splice(index, 1)
+                                  return _vm.removeFormData(index)
                                 },
                               },
                             },
@@ -30672,6 +30867,7 @@ var render = function () {
                 ),
               ]
             },
+            proxy: true,
           },
           {
             key: "footer",
@@ -30836,7 +31032,7 @@ var render = function () {
                               },
                               on: {
                                 click: function ($event) {
-                                  return _vm.data.push(_vm.form)
+                                  return _vm.pushFormData()
                                 },
                               },
                             },
@@ -30945,13 +31141,12 @@ var render = function () {
                               items: _vm.vendorOption,
                               "item-text": "name",
                               "item-value": "name",
-                            },
-                            model: {
                               value: _vm.form.vendor,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, "vendor", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateForm("vendor", $event)
                               },
-                              expression: "form.vendor",
                             },
                           }),
                         ],
@@ -30975,13 +31170,12 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "Attention Of",
-                            },
-                            model: {
                               value: _vm.form.attentionOf,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, "attentionOf", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateForm("attentionOf", $event)
                               },
-                              expression: "form.attentionOf",
                             },
                           }),
                         ],
@@ -31005,13 +31199,12 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "Quotation No.",
-                            },
-                            model: {
                               value: _vm.form.quotationNo,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, "quotationNo", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateForm("quotationNo", $event)
                               },
-                              expression: "form.quotationNo",
                             },
                           }),
                         ],
@@ -31038,13 +31231,12 @@ var render = function () {
                               items: _vm.invoiceToOption,
                               "item-text": "name",
                               "item-value": "name",
-                            },
-                            model: {
                               value: _vm.form.invoiceTo,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, "invoiceTo", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateForm("invoiceTo", $event)
                               },
-                              expression: "form.invoiceTo",
                             },
                           }),
                         ],
@@ -31069,13 +31261,12 @@ var render = function () {
                               solo: "",
                               "hide-details": "",
                               placeholder: "Vendor Address",
-                            },
-                            model: {
                               value: _vm.form.vendorAddress,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, "vendorAddress", $$v)
+                            },
+                            on: {
+                              input: function ($event) {
+                                return _vm.updateForm("vendorAddress", $event)
                               },
-                              expression: "form.vendorAddress",
                             },
                           }),
                         ],
@@ -31108,13 +31299,12 @@ var render = function () {
                       items: _vm.customerContractOption,
                       "item-text": "name",
                       "item-value": "name",
-                    },
-                    model: {
                       value: _vm.form.customerContract,
-                      callback: function ($$v) {
-                        _vm.$set(_vm.form, "customerContract", $$v)
+                    },
+                    on: {
+                      input: function ($event) {
+                        return _vm.updateForm("customerContract", $event)
                       },
-                      expression: "form.customerContract",
                     },
                   }),
                   _vm._v(" "),
@@ -31135,13 +31325,12 @@ var render = function () {
                       items: _vm.customerPoNoOption,
                       "item-text": "name",
                       "item-value": "name",
-                    },
-                    model: {
                       value: _vm.form.customerPoNo,
-                      callback: function ($$v) {
-                        _vm.$set(_vm.form, "customerPoNo", $$v)
+                    },
+                    on: {
+                      input: function ($event) {
+                        return _vm.updateForm("customerPoNo", $event)
                       },
-                      expression: "form.customerPoNo",
                     },
                   }),
                 ],
@@ -31352,8 +31541,51 @@ var render = function () {
             color: "cyan darken-1",
             depressed: "",
           },
+          on: { click: _vm.validateForm },
         },
         [_vm._v("\n        Submit\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: { color: _vm.snackbarColor },
+          scopedSlots: _vm._u([
+            {
+              key: "action",
+              fn: function (ref) {
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._b(
+                      {
+                        attrs: { text: "" },
+                        on: {
+                          click: function ($event) {
+                            _vm.snackbar = false
+                          },
+                        },
+                      },
+                      "v-btn",
+                      attrs,
+                      false
+                    ),
+                    [_vm._v("\n                Close\n            ")]
+                  ),
+                ]
+              },
+            },
+          ]),
+          model: {
+            value: _vm.snackbar,
+            callback: function ($$v) {
+              _vm.snackbar = $$v
+            },
+            expression: "snackbar",
+          },
+        },
+        [_vm._v("\n        " + _vm._s(_vm.snakbarText) + "\n        ")]
       ),
     ],
     1
